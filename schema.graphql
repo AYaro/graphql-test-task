@@ -11,12 +11,12 @@ type Rate {
 	"""
 		текстовое описание задачи
 	"""
-	exchangeRate: Int!
+	exchangeRate: Float!
 }
 
 input RateInput {
 	currency: Currency!
-	exchangeRate: Int!
+	exchangeRate: Float!
 }
 
 type Query {
