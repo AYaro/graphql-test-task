@@ -11,6 +11,11 @@ import (
 
 var collection *mongo.Collection
 
+type Rates struct {
+	Currency     string  `bson:"currency"`
+	ExchangeRate float64 `bson:"exchangeRate"`
+}
+
 func init() {
 	mustConnectToMongo()
 }
@@ -42,23 +47,10 @@ func initiateCurrencies() error {
 
 	fmt.Println("Initiating currencies")
 
-	USD := RateInput{
-		Currency:     CurrencyUsd,
-		ExchangeRate: 0.0,
-	}
+	usd := Rates{Currency: "USD", ExchangeRate: 0.0}
+	eur := Rates{Currency: "EUR", ExchangeRate: 0.0}
 
-	EUR := RateInput{
-		Currency:     CurrencyEur,
-		ExchangeRate: 0.0,
-	}
-
-	_, err := collection.InsertOne(context.TODO(), USD)
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-
-	_, err = collection.InsertOne(context.TODO(), EUR)
+	_, err := collection.InsertMany(context.TODO(), []interface{}{usd, eur})
 	if err != nil {
 		log.Fatal(err)
 		return err
