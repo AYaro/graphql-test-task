@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/url"
 	"strconv"
@@ -44,6 +45,7 @@ func parse(data []byte) (rates, error) {
 
 func startwebsocket(url string) *websocket.Conn {
 	c, _, err := websocket.DefaultDialer.Dial(url, nil)
+	fmt.Println("restart")
 	if err != nil {
 		log.Fatal("dial:", err)
 	}

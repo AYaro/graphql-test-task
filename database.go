@@ -2,6 +2,8 @@ package graphql_test_task
 
 import (
 	"context"
+	"fmt"
+	"log"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -31,7 +33,36 @@ func connectToMongo() error {
 		return err
 	}
 
-	collection = client.Database("test").Collection("rates")
+	collection = client.Database("graphql-test-task-db").Collection("rates")
+
+	return nil
+}
+
+func initiateCurrencies() error {
+
+	fmt.Println("Initiating currencies")
+
+	USD := RateInput{
+		Currency:     CurrencyUsd,
+		ExchangeRate: 0.0,
+	}
+
+	EUR := RateInput{
+		Currency:     CurrencyEur,
+		ExchangeRate: 0.0,
+	}
+
+	_, err := collection.InsertOne(context.TODO(), USD)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	_, err = collection.InsertOne(context.TODO(), EUR)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
 
 	return nil
 }

@@ -41,13 +41,10 @@ func (r *mutationResolver) UpdateRate(ctx context.Context, input RateInput) (boo
 
 	//обновляем курс в бд
 	res, err := collection.UpdateOne(context.TODO(), filter, update)
-	if err != nil {
-		log.Fatal(err)
-		return false, err
-	}
 
 	//если вдруг такая валюта не найдена то возвращаем false
-	if res.MatchedCount == 0 || res.ModifiedCount == 0 {
+	if res.MatchedCount == 0 || err != nil {
+		err = initiateCurrencies()
 		return false, err
 	}
 
@@ -127,7 +124,7 @@ func (r *subscriptionResolver) ObserveRate(ctx context.Context, currency Currenc
 		<-ctx.Done()
 		delete(channels, id)
 	}()
-	
+
 	//добовляем канал
 	channels[id] = subEvents
 

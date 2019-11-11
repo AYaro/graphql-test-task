@@ -1,0 +1,30 @@
+version: '3'
+services:
+  server: 
+    build: ./
+    container_name: server
+    restart: always
+    image: graphql-task
+    ports:
+      - 8080:8080 
+    environment:
+      - "PORT=8080"
+    network_mode: "host"
+    
+  database:
+    image: 'mongo'
+    container_name: 'mongo-container'
+    environment:
+      - MONGO_INITDB_DATABASE=graphql-test-task-db  
+    volumes:
+      - ./init_db.js:/docker-entrypoint-intdb.d/init_db.js
+    ports:
+      - '27017-27019:27017-27019'
+
+  parser:
+      build: parser/
+      container_name: parser
+      restart: always
+      image: parser
+      network_mode: "host"
+      
