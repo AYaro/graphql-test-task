@@ -40,7 +40,7 @@ func parse(data []byte) (rates, error) {
 	str := string(data)
 	RateUSD, err := strconv.ParseFloat(strings.Split(str, ";")[0], 64)
 	RateEUR, err := strconv.ParseFloat(strings.Split(str, ";")[1], 64)
-	return rates{RateEUR, RateUSD}, err
+	return rates{RateUSD, RateEUR}, err
 }
 
 func startwebsocket(url string) *websocket.Conn {
@@ -108,7 +108,7 @@ func main() {
 		}
 		if rate.RateUSD != currentRate.RateUSD {
 			gqlSend(CurrencyUsd, rate.RateUSD)
-			currentRate.RateEUR = rate.RateUSD
+			currentRate.RateUSD = rate.RateUSD
 		}
 	}
 }
