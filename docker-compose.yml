@@ -10,6 +10,8 @@ services:
     environment:
       - "PORT=8080"
     network_mode: "host"
+    depends_on: 
+      - database
     
   database:
     image: 'mongo'
@@ -17,7 +19,7 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=graphql-test-task-db  
     volumes:
-      - ./init_db.js:/docker-entrypoint-intdb.d/init_db.js
+      - ./init_db.js:/docker-entrypoint-initdb.d/init_db.js
     ports:
       - '27017-27019:27017-27019'
 
@@ -27,4 +29,7 @@ services:
       restart: always
       image: parser
       network_mode: "host"
+      depends_on:
+        - database 
+        - server
       

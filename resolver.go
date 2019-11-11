@@ -2,6 +2,7 @@ package graphql_test_task
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"math/rand"
 
@@ -73,6 +74,8 @@ func (r *queryResolver) GetRates(ctx context.Context, currency *Currency) ([]*Ra
 
 		var singleResult *Rate
 
+		res, _ := collection.FindOne(ctx, filter).DecodeBytes()
+		fmt.Println(res)
 		err := collection.FindOne(ctx, filter).Decode(&singleResult)
 		if err != nil {
 			log.Fatal(err)
