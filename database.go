@@ -28,7 +28,7 @@ func mustConnectToMongo() {
 
 func connectToMongo() error {
 
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://database:27017"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://backend:27017"))
 	if err != nil {
 		return err
 	}
